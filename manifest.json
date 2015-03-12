@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+
+  "name": "doWish",
+  "description": "doWish",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon.png"
+  },
+  // "content_scripts": [{
+  //   "matches": ["http://*.tmall.com/*"],
+  //   "js": ["js/lib/jquery.js", "js/content.js"]
+  // }],
+  "background": {
+    "scripts": ["js/eventPage.js"],
+    "persistent": false
+  },
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "https://ajax.googleapis.com/"
+  ]
+}
