@@ -1,41 +1,34 @@
-var doWish = (function() {
-	var getWish, jqueryMap = {};
+var tab = chrome.tabs.getCurrent(),
+	eBizWishMap = {
+		TMall: function() {},
+		Taobao: function() {},
+		Amazon: function() {}
+	},
+	getEBizWish;
 
-	getWish = function() {
-		jqueryMap.$body = $('body');
-		var $price = jqueryMap.$body.find('.tm-price');
-		return $price;
-	};
+if (tab.url) {
+	//if url match some pattern
+	getEBizWish = eBizWishMap["TMall"];
+}
+
+var doWish = (function() {
 
 	return {
-		getWish: getWish
+		getWish: getEBizWish
 	};
 })();
 
 chrome.runtime.onConnect.addListener(function(port) {
-	console.assert(port.name == "knockknock");
+	console.assert(port.name == "doWish");
 	port.onMessage.addListener(function(command) {
 		if (command.name) {
-			var $price = doWish[command.name]();
-			var data = JSON.stringify($price); //circular structure cannot be convert!
-			console.log(data);
+			var wish = doWish[command.name]();
+			var wishJSON = JSON.stringify(wish); //circular structure cannot be convert!
+			console.log(wishJSON);
 			port.postMessage({
-				$price: data
+				wish: wishJSON
 			});
 		}
-		// if (msg.joke == "Knock knock") {
-		// 	port.postMessage({
-		// 		question: "Who's there?"
-		// 	});
-		// } else if (msg.answer == "Madame") {
-		// 	port.postMessage({
-		// 		question: "Madame who?"
-		// 	});
-		// } else if (msg.answer == "Madame... Bovary") {
-		// 	port.postMessage({
-		// 		question: "I don't get it."
-		// 	});
-		// }
 		console.log(command);
 	});
 });
