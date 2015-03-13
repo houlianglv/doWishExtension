@@ -1,29 +1,32 @@
 "use strict";
-console.log("icon clicked!");
+var eBiz;
 chrome.tabs.query({
 	active: true,
 	windowType: "normal",
 	currentWindow: true
-}, function(d) {
-	var res;
-	if (d.length > 0) {
-		res = "get " + d.length + " tabs!";
-		var tab = d[0];
+}, function(tabs) {
+	if (tabs.length > 0) {
+		var tab = tabs[0];
+		console.log("get tab:" + tab.url);
 	} else {
-		res = "no tab found!"
+		return;
 	}
-	console.log(res);
+
+	if (tab.url) {
+		//match 
+		eBiz = "TMall";
+	}
 	var port = chrome.tabs.connect(tab.id, {
 		name: "doWish"
 	});
 	port.postMessage({
-		name: "getWish"
+		name: "get" + eBiz + "Wish"
 	});
 	port.onMessage.addListener(function(result) {
 		console.log(result);
-		if (result.price) {
-			var price = JSON.parse(result.price);
-			console.log(price);
+		if (result) {
+			var resObj = JSON.parse(result.wish);
+			console.log(resObj);
 		}
 	});
 });
