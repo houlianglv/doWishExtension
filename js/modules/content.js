@@ -8,7 +8,7 @@ require(
 			getTMallWish = function() {
 				var jqueryMap = {
 					$price: $('.tm-price'),
-					$title: $('.tb-detail-hd h1'),
+					$title: $('title'),
 					$img: $('.tb-thumb img')
 				};
 				if (jqueryMap.$price.size() > 0) {
@@ -18,7 +18,7 @@ require(
 					});
 				}
 				var title = ""
-				jqueryMap.$title.size() > 0 ? title = jqueryMap.$title.html() : title;
+				jqueryMap.$title.size() > 0 ? title = jqueryMap.$title.text() : title;
 				if (jqueryMap.$img.size() > 0) {
 					var imgUrls = [];
 					jqueryMap.$img.each(function(i) {
@@ -50,12 +50,6 @@ require(
 			port.onMessage.addListener(function(command) {
 				if (command.name) {
 					var wish = doWish[command.name]();
-					// wish = {
-					// 	name: "basketball",
-					// 	price: "149",
-					// 	currency: "rmb",
-					// 	url: "detail.tmall.com/123144523"
-					// };
 					var wishJSON = JSON.stringify(wish); //circular structure cannot be convert!
 					console.log(wishJSON);
 					port.postMessage({
