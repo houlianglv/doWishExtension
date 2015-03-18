@@ -27,8 +27,9 @@ require(
 				}
 				console.log(jqueryMap);
 				return {
-					prices: prices,
+					eBiz: 'TMall',
 					title: title,
+					prices: prices,
 					imgUrls: imgUrls
 				};
 			};

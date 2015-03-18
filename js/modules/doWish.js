@@ -1,6 +1,6 @@
 requirejs.config(requirejsConfig);
 
-define('doWish', ['jquery'], function($) {
+define('doWish', ['jquery', 'wishRender'], function($, wishRender) {
 	"use strict";
 
 	var $appContainer = undefined,
@@ -59,9 +59,9 @@ define('doWish', ['jquery'], function($) {
 	};
 
 	_process_wish = function(result) {
-		$('<div>'+result.wish+'</div>').appendTo($appContainer);
-		// $appContainer.append(result);
-		console.log(result);
+		wishRender.render(result.wish, $appContainer);
+		// $('<div>'+result.wish+'</div>').appendTo($appContainer);
+		// //console.log(result);
 	};
 	_start_get_wish = function() {
 		_get_current_tab().done(function(tab) {
